@@ -43,7 +43,7 @@ The solution uses a UNION ALL to combine results from two separate account types
 3. Inactivity is calculated using DATEDIFF(CURDATE(), MAX(created_on)).
 4. Only accounts inactive for over 365 days are included.
 
-##Challenges & Considerations:
+### Challenges & Considerations:
 1. Determining a consistent method to define account activity across different table schemas.
 2. Ensuring only accounts with actual inflow were considered, thereby excluding zero-fund or inactive-by-default accounts.
 3. Aligning date-based logic consistently across both account types despite differing column structures.
