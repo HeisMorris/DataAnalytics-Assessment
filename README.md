@@ -36,13 +36,18 @@ The main challenge was calculating the accurate time period for each customer. S
 ## Question 3: Account Inactivity Alert
 
 ### Approach
-For the inactive accounts query:
-1. Identifies the latest transaction date for each plan by considering both inflows (confirmed_amount) and withdrawals (amount_withdrawn)
-2. Uses DATEDIFF to calculate days since last transaction
-3. Filters for active accounts with no transactions in the last 365 days
+Approach:
+The solution uses a UNION ALL to combine results from two separate account types: savings and investments. For each:
+1. Accounts are filtered to include only those with confirmed inflow (confirmed_amount > 0 for savings, amount > 0 for investments).
+2. The most recent transaction date is derived using MAX(created_on).
+3. Inactivity is calculated using DATEDIFF(CURDATE(), MAX(created_on)).
+4. Only accounts inactive for over 365 days are included.
 
-### Challenges
-The key challenge was handling the potentially different types of transactions. I created a unified view of transactions using a UNION ALL of inflow and withdrawal transactions, ensuring I captured the most recent activity regardless of type.
+##Challenges & Considerations:
+1. Determining a consistent method to define account activity across different table schemas.
+2. Ensuring only accounts with actual inflow were considered, thereby excluding zero-fund or inactive-by-default accounts.
+3. Aligning date-based logic consistently across both account types despite differing column structures.
+
 
 ## Question 4: Customer Lifetime Value (CLV) Estimation
 
